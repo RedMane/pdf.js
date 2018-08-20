@@ -1208,7 +1208,7 @@ let PDFViewerApplication = {
       }
 
       if (info.IsAcroFormPresent) {
-        console.warn('Warning: AcroForm/XFA is not supported');
+        // console.warn('Warning: AcroForm/XFA is not supported');
         this.fallback(UNSUPPORTED_FEATURES.forms);
       }
 
@@ -1407,6 +1407,8 @@ let PDFViewerApplication = {
     eventBus.on('openfile', webViewerOpenFile);
     eventBus.on('print', webViewerPrint);
     eventBus.on('download', webViewerDownload);
+	eventBus.on('syncInFields', webViewerSyncInFields);	// mCase-customization: custom event handler to synch pdf form fields 
+	eventBus.on('syncOutFields', webViewerSyncOutFields); // mCase-customization: custom event handler to synch mCase fields 
     eventBus.on('firstpage', webViewerFirstPage);
     eventBus.on('lastpage', webViewerLastPage);
     eventBus.on('nextpage', webViewerNextPage);
@@ -1954,13 +1956,16 @@ if (typeof PDFJSDev === 'undefined' || PDFJSDev.test('GENERIC')) {
       fileReader.readAsArrayBuffer(file);
     }
 
-    // URL does not reflect proper document location - hiding some icons.
+	/* BEGIN mCase-customization: Commenting out code */
+    /* 
+	// URL does not reflect proper document location - hiding some icons.
     let appConfig = PDFViewerApplication.appConfig;
     appConfig.toolbar.viewBookmark.setAttribute('hidden', 'true');
-    appConfig.secondaryToolbar.viewBookmarkButton.setAttribute('hidden',
-                                                               'true');
+    appConfig.secondaryToolbar.viewBookmarkButton.setAttribute('hidden', 'true');
     appConfig.toolbar.download.setAttribute('hidden', 'true');
     appConfig.secondaryToolbar.downloadButton.setAttribute('hidden', 'true');
+	*/
+	/* END mCase-customization */
   };
 }
 
@@ -1977,7 +1982,37 @@ function webViewerPrint() {
   window.print();
 }
 function webViewerDownload() {
-  PDFViewerApplication.download();
+  // PDFViewerApplication.download();
+    
+  // mCase-customization: adding custom event to trigger merge and download of pdf with from fields values  
+  var event = new CustomEvent('downloadPdf', {
+    bubbles: true
+  });
+  document.dispatchEvent(event);
+}
+function webViewerSyncInFields() {
+ 
+  // mCase-customization: adding custom event to trigger autoFill form fields  
+  var event = new CustomEvent('populatePdfFormFields', {
+	detail: {
+	  id: document.body.getAttribute('id'),
+	  viewType: document.body.getAttribute('viewType') 	
+	},  
+    bubbles: true
+  });
+  document.dispatchEvent(event);
+}
+function webViewerSyncOutFields() {
+  
+  // mCase-customization: adding custom event to trigger autoFill mcase fields  
+  var event = new CustomEvent('populateMCaseFields', {
+	detail: {
+	  id: document.body.getAttribute('id'),
+	  viewType: document.body.getAttribute('viewType') 	
+	},  
+    bubbles: true
+  });
+  document.dispatchEvent(event);
 }
 function webViewerFirstPage() {
   if (PDFViewerApplication.pdfDocument) {

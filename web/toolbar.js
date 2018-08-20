@@ -151,7 +151,17 @@ class Toolbar {
     items.download.addEventListener('click', function() {
       eventBus.dispatch('download');
     });
-
+	
+	/* BEGIN: mCase-customization: custom event listeners */
+    items.synchIn.addEventListener('click', function() {
+      eventBus.dispatch('syncInFields');
+    });
+	
+	items.synchOut.addEventListener('click', function() {
+      eventBus.dispatch('syncOutFields');
+    });
+    /* END: mCase-customization */
+	
     // Suppress context menus for some controls.
     items.scaleSelect.oncontextmenu = noContextMenuHandler;
 

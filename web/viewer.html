@@ -127,17 +127,30 @@ See https://github.com/adobe-type-tools/cmap-resources
               <span data-l10n-id="open_file_label">Open</span>
             </button>
 
-            <button id="secondaryPrint" class="secondaryToolbarButton print visibleMediumView" title="Print" tabindex="53" data-l10n-id="print">
+			<!-- mCase-customization: removed tab index and added hidden attribute for print button --> 
+            <button id="secondaryPrint" class="secondaryToolbarButton print visibleMediumView" title="Print" data-l10n-id="print" hidden>
               <span data-l10n-id="print_label">Print</span>
             </button>
 
-            <button id="secondaryDownload" class="secondaryToolbarButton download visibleMediumView" title="Download" tabindex="54" data-l10n-id="download">
+			<!-- mCase-customization: updated tab index for download button --> 
+            <button id="secondaryDownload" class="secondaryToolbarButton download visibleMediumView" title="Download" tabindex="53" data-l10n-id="download">
               <span data-l10n-id="download_label">Download</span>
             </button>
-
-            <a href="#" id="secondaryViewBookmark" class="secondaryToolbarButton bookmark visibleSmallView" title="Current view (copy or open in new window)" tabindex="55" data-l10n-id="bookmark">
+			
+			<!-- mCase-customization: removed tab index and added hidden attribute for bookmark link --> 
+            <a href="#" id="secondaryViewBookmark" class="secondaryToolbarButton bookmark visibleSmallView" title="Current view (copy or open in new window)" data-l10n-id="bookmark" hidden>
               <span data-l10n-id="bookmark_label">Current View</span>
             </a>
+			
+			<!-- mCase-customization: new SynchIn button --> 
+			<button id="secondarySynchIn" class="secondaryToolbarButton synchIn visibleLargeView" title="SynchIn" tabindex="54">
+              <span>Synch from mCase to Pdf</span>
+            </button>
+			
+			<!-- mCase-customization: new SynchOut button --> 
+			<button id="secondarySynchOut" class="secondaryToolbarButton synchOut visibleLargeView" title="SynchOut" tabindex="54">
+              <span>Synch from Pdf to mCase</span>
+            </button>
 
             <div class="horizontalToolbarSeparator visibleLargeView"></div>
 
@@ -225,21 +238,35 @@ See https://github.com/adobe-type-tools/cmap-resources
                 <button id="presentationMode" class="toolbarButton presentationMode hiddenLargeView" title="Switch to Presentation Mode" tabindex="31" data-l10n-id="presentation_mode">
                   <span data-l10n-id="presentation_mode_label">Presentation Mode</span>
                 </button>
-
+				
                 <button id="openFile" class="toolbarButton openFile hiddenLargeView" title="Open File" tabindex="32" data-l10n-id="open_file">
                   <span data-l10n-id="open_file_label">Open</span>
                 </button>
 
-                <button id="print" class="toolbarButton print hiddenMediumView" title="Print" tabindex="33" data-l10n-id="print">
+				<!-- mCase-customization: removed tab index and added hidden attribute for print button --> 
+                <button id="print" class="toolbarButton print hiddenMediumView" title="Print" data-l10n-id="print" hidden>
                   <span data-l10n-id="print_label">Print</span>
                 </button>
 
-                <button id="download" class="toolbarButton download hiddenMediumView" title="Download" tabindex="34" data-l10n-id="download">
+				<!-- mCase-customization: updated tab index for download button --> 
+                <button id="download" class="toolbarButton download hiddenMediumView" title="Download" tabindex="33" data-l10n-id="download">
                   <span data-l10n-id="download_label">Download</span>
                 </button>
-                <a href="#" id="viewBookmark" class="toolbarButton bookmark hiddenSmallView" title="Current view (copy or open in new window)" tabindex="35" data-l10n-id="bookmark">
+				
+				<!-- mCase-customization: removed tab index and added hidden attribute for bookmark link --> 
+                <a href="#" id="viewBookmark" class="toolbarButton bookmark hiddenSmallView" title="Current view (copy or open in new window)" data-l10n-id="bookmark" hidden>
                   <span data-l10n-id="bookmark_label">Current View</span>
                 </a>
+				
+				<!-- mCase-customization: new SynchIn button -->
+				<button id="synchIn" class="toolbarButton synchIn hiddenLargeView" title="Synch from mCase to Pdf" tabindex="34">
+                  <span>Synch In</span>
+                </button>
+				
+				<!-- mCase-customization: new SynchOut button -->
+				<button id="synchOut" class="toolbarButton synchOut hiddenLargeView" title="Synch from Pdf to mCase" tabindex="35">
+                  <span>SynchOut</span>
+                </button>
 
                 <div class="verticalToolbarSeparator hiddenSmallView"></div>
 

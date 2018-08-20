@@ -1,6 +1,6 @@
 {
   "showPreviousViewOnLoad": true,
-  "defaultZoomValue": "",
+  "defaultZoomValue": "page-width",
   "sidebarViewOnLoad": 0,
   "cursorToolOnLoad": 0,
   "enableWebGL": false,
@@ -13,7 +13,7 @@
   "useOnlyCssZoom": false,
   "externalLinkTarget": 0,
   "renderer": "canvas",
-  "renderInteractiveForms": false,
+  "renderInteractiveForms": true,
   "enablePrintAutoRotate": false,
   "disablePageMode": false,
   "disablePageLabels": false,

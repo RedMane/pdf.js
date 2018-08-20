@@ -108,7 +108,7 @@ function scrollIntoView(element, spot, skipOverflowHiddenElements = false) {
   // producing the error. See also animationStarted.
   let parent = element.offsetParent;
   if (!parent) {
-    console.error('offsetParent is not set -- cannot scroll');
+    console.warn('offsetParent is not set -- cannot scroll');
     return;
   }
   let offsetY = element.offsetTop + element.clientTop;
@@ -445,6 +445,10 @@ function getVisibleElements(scrollEl, views, sortByVisibility = false,
   let currentHeight, viewHeight, viewBottom, hiddenHeight;
   let currentWidth, viewWidth, viewRight, hiddenWidth;
   let percentVisible;
+  let firstVisibleElementInd = 0;
+  
+  /* BEGIN mCase-customization: force render all pdf pages */
+  /*   
   let firstVisibleElementInd = views.length === 0 ? 0 :
     binarySearchFirstItem(views, horizontal ? isElementRightAfterViewLeft :
                                               isElementBottomAfterViewTop);
@@ -468,7 +472,9 @@ function getVisibleElements(scrollEl, views, sortByVisibility = false,
   // horizontal scrolling, we don't have that issue, so we can stop as soon as
   // we pass `right`, without needing the code below that handles the -1 case.
   let lastEdge = horizontal ? right : -1;
-
+  */
+  /* END mCase-customization */
+  
   for (let i = firstVisibleElementInd, ii = views.length; i < ii; i++) {
     view = views[i];
     element = view.div;
@@ -478,7 +484,9 @@ function getVisibleElements(scrollEl, views, sortByVisibility = false,
     viewHeight = element.clientHeight;
     viewRight = currentWidth + viewWidth;
     viewBottom = currentHeight + viewHeight;
-
+    
+	/* BEGIN mCase-customization: force render all pdf pages */
+	/*
     if (lastEdge === -1) {
       // As commented above, this is only needed in non-horizontal cases.
       // Setting lastEdge to the bottom of the first page that is partially
@@ -495,6 +503,8 @@ function getVisibleElements(scrollEl, views, sortByVisibility = false,
         viewRight <= left || currentWidth >= right) {
       continue;
     }
+    */
+	/* END mCase-customization */
 
     hiddenHeight = Math.max(0, top - currentHeight) +
       Math.max(0, viewBottom - bottom);

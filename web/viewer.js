@@ -77,6 +77,8 @@ function getViewerConfiguration() {
       print: document.getElementById('print'),
       presentationModeButton: document.getElementById('presentationMode'),
       download: document.getElementById('download'),
+	  synchIn: document.getElementById('synchIn'), // mCase-customization: new button to synch pdf form fields  
+	  synchOut: document.getElementById('synchOut'), // mCase-customization: new button to synch mCase fields    
       viewBookmark: document.getElementById('viewBookmark'),
     },
     secondaryToolbar: {

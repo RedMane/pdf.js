@@ -350,9 +350,9 @@ document.webL10n = (function(window, document, undefined) {
       // are synchronously called.
       this.load = function(lang, callback) {
         parseResource(href, lang, callback, function() {
-          console.warn(href + ' not found.');
+          // console.warn(href + ' not found.');
           // lang not found, used default resource instead
-          console.warn('"' + lang + '" resource not found');
+          // console.warn('"' + lang + '" resource not found');
           gLanguage = '';
           // Resource not loaded, but we still need to call the callback.
           callback();
@@ -828,7 +828,7 @@ document.webL10n = (function(window, document, undefined) {
   function getL10nData(key, args, fallback) {
     var data = gL10nData[key];
     if (!data) {
-      console.warn('#' + key + ' is undefined.');
+      // console.warn('#' + key + ' is undefined.');
       if (!fallback) {
         return null;
       }
@@ -900,7 +900,7 @@ document.webL10n = (function(window, document, undefined) {
     // get the related l10n object
     var data = getL10nData(l10n.id, l10n.args);
     if (!data) {
-      console.warn('#' + l10n.id + ' is undefined.');
+      // console.warn('#' + l10n.id + ' is undefined.');
       return;
     }
 

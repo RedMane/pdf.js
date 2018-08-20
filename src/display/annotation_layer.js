@@ -143,6 +143,14 @@ class AnnotationElement {
     let height = data.rect[3] - data.rect[1];
 
     container.setAttribute('data-annotation-id', data.id);
+	
+	/* BEGIN mCase-customization: additional data attributes */
+	container.setAttribute('data-field-name', data.fieldName.toUpperCase()); 
+	
+	if(data.radioButton){
+		container.setAttribute('data-button-value', data.buttonValue.toUpperCase());
+	}
+	/* END mCase-customization */
 
     // Do *not* modify `data.rect`, since that will corrupt the annotation
     // position on subsequent calls to `_createContainer` (see issue 6804).

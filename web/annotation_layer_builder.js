@@ -86,6 +86,15 @@ class AnnotationLayerBuilder {
 
         AnnotationLayer.render(parameters);
         this.l10n.translate(this.div);
+		
+		/* BEGIN mCase-customization: firing custom event with annotation details when annotation layer for page has been rendered */
+		var event = new CustomEvent('annotationlayerrendered', {
+		  detail: parameters,
+		  bubbles: true
+        });
+
+        parameters.div.dispatchEvent(event);
+		/* END mCase-customization */
       }
     });
   }
