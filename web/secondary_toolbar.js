@@ -66,6 +66,8 @@ class SecondaryToolbar {
       { element: options.openFileButton, eventName: 'openfile', close: true, },
       { element: options.printButton, eventName: 'print', close: true, },
       { element: options.downloadButton, eventName: 'download', close: true, },
+	  { element: options.secondarySynchIn, eventName: 'syncInFields', close: true, },
+	  { element: options.secondarySynchOut, eventName: 'syncOutFields', close: true, },
       { element: options.viewBookmarkButton, eventName: null, close: true, },
       { element: options.firstPageButton, eventName: 'firstpage',
         close: true, },

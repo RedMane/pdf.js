@@ -605,7 +605,7 @@ gulp.task('generic', ['buildnumber', 'locale'], function () {
   rimraf.sync(GENERIC_DIR);
 
   return merge([
-    createBundle(defines).pipe(gulp.dest(GENERIC_DIR + 'build')),
+    createBundle(defines).pipe(gulp.dest(GENERIC_DIR + 'buildlib')),
     createWebBundle(defines).pipe(gulp.dest(GENERIC_DIR + 'web')),
     gulp.src(COMMON_WEB_FILES, { base: 'web/', })
         .pipe(gulp.dest(GENERIC_DIR + 'web')),
@@ -668,7 +668,7 @@ gulp.task('minified-pre', ['buildnumber', 'locale'], function () {
   rimraf.sync(MINIFIED_DIR);
 
   return merge([
-    createBundle(defines).pipe(gulp.dest(MINIFIED_DIR + 'build')),
+    createBundle(defines).pipe(gulp.dest(MINIFIED_DIR + 'buildlib')),
     createWebBundle(defines).pipe(gulp.dest(MINIFIED_DIR + 'web')),
     createImageDecodersBundle(builder.merge(defines, { IMAGE_DECODERS: true, }))
         .pipe(gulp.dest(MINIFIED_DIR + 'image_decoders')),
@@ -694,9 +694,9 @@ gulp.task('minified-pre', ['buildnumber', 'locale'], function () {
 });
 
 gulp.task('minified-post', ['minified-pre'], function () {
-  var pdfFile = fs.readFileSync(MINIFIED_DIR + '/build/pdf.js').toString();
+  var pdfFile = fs.readFileSync(MINIFIED_DIR + '/buildlib/pdf.js').toString();
   var pdfWorkerFile =
-    fs.readFileSync(MINIFIED_DIR + '/build/pdf.worker.js').toString();
+    fs.readFileSync(MINIFIED_DIR + '/buildlib/pdf.worker.js').toString();
   var pdfImageDecodersFile = fs.readFileSync(MINIFIED_DIR +
     '/image_decoders/pdf.image_decoders.js').toString();
   var viewerFiles = {
@@ -713,9 +713,9 @@ gulp.task('minified-post', ['minified-pre'], function () {
 
   fs.writeFileSync(MINIFIED_DIR + '/web/pdf.viewer.js',
                    UglifyES.minify(viewerFiles).code);
-  fs.writeFileSync(MINIFIED_DIR + '/build/pdf.min.js',
+  fs.writeFileSync(MINIFIED_DIR + '/buildlib/pdf.min.js',
                    UglifyES.minify(pdfFile).code);
-  fs.writeFileSync(MINIFIED_DIR + '/build/pdf.worker.min.js',
+  fs.writeFileSync(MINIFIED_DIR + '/buildlib/pdf.worker.min.js',
                    UglifyES.minify(pdfWorkerFile, optsForHugeFile).code);
   fs.writeFileSync(MINIFIED_DIR + 'image_decoders/pdf.image_decoders.min.js',
                    UglifyES.minify(pdfImageDecodersFile).code);
@@ -725,12 +725,12 @@ gulp.task('minified-post', ['minified-pre'], function () {
 
   fs.unlinkSync(MINIFIED_DIR + '/web/viewer.js');
   fs.unlinkSync(MINIFIED_DIR + '/web/debugger.js');
-  fs.unlinkSync(MINIFIED_DIR + '/build/pdf.js');
-  fs.unlinkSync(MINIFIED_DIR + '/build/pdf.worker.js');
-  fs.renameSync(MINIFIED_DIR + '/build/pdf.min.js',
-                MINIFIED_DIR + '/build/pdf.js');
-  fs.renameSync(MINIFIED_DIR + '/build/pdf.worker.min.js',
-                MINIFIED_DIR + '/build/pdf.worker.js');
+  fs.unlinkSync(MINIFIED_DIR + '/buildlib/pdf.js');
+  fs.unlinkSync(MINIFIED_DIR + '/buildlib/pdf.worker.js');
+  fs.renameSync(MINIFIED_DIR + '/buildlib/pdf.min.js',
+                MINIFIED_DIR + '/buildlib/pdf.js');
+  fs.renameSync(MINIFIED_DIR + '/buildlib/pdf.worker.min.js',
+                MINIFIED_DIR + '/buildlib/pdf.worker.js');
   fs.renameSync(MINIFIED_DIR + '/image_decoders/pdf.image_decoders.min.js',
                 MINIFIED_DIR + '/image_decoders/pdf.image_decoders.js');
 });
@@ -771,7 +771,7 @@ gulp.task('mozcentral-pre', ['buildnumber', 'locale'], function () {
   var version = versionJSON.version, commit = versionJSON.commit;
 
   return merge([
-    createBundle(defines).pipe(gulp.dest(MOZCENTRAL_CONTENT_DIR + 'build')),
+    createBundle(defines).pipe(gulp.dest(MOZCENTRAL_CONTENT_DIR + 'buildlib')),
     createWebBundle(defines).pipe(gulp.dest(MOZCENTRAL_CONTENT_DIR + 'web')),
     gulp.src(COMMON_WEB_FILES, { base: 'web/', })
         .pipe(gulp.dest(MOZCENTRAL_CONTENT_DIR + 'web')),
@@ -816,7 +816,7 @@ gulp.task('chromium-pre', ['buildnumber', 'locale'], function () {
   var version = getVersionJSON().version;
 
   return merge([
-    createBundle(defines).pipe(gulp.dest(CHROME_BUILD_CONTENT_DIR + 'build')),
+    createBundle(defines).pipe(gulp.dest(CHROME_BUILD_CONTENT_DIR + 'buildlib')),
     createWebBundle(defines).pipe(gulp.dest(CHROME_BUILD_CONTENT_DIR + 'web')),
     gulp.src(COMMON_WEB_FILES, { base: 'web/', })
         .pipe(gulp.dest(CHROME_BUILD_CONTENT_DIR + 'web')),
@@ -1264,12 +1264,12 @@ gulp.task('dist-pre',
       GENERIC_DIR + 'build/pdf.worker.js.map',
       SRC_DIR + 'pdf.worker.entry.js',
     ]).pipe(gulp.dest(DIST_DIR + 'build/')),
-    gulp.src(MINIFIED_DIR + 'build/pdf.js')
+    gulp.src(MINIFIED_DIR + 'buildlib/pdf.js')
         .pipe(rename('pdf.min.js'))
         .pipe(gulp.dest(DIST_DIR + 'build/')),
-    gulp.src(MINIFIED_DIR + 'build/pdf.worker.js')
+    gulp.src(MINIFIED_DIR + 'buildlib/pdf.worker.js')
         .pipe(rename('pdf.worker.min.js'))
-        .pipe(gulp.dest(DIST_DIR + 'build/')),
+        .pipe(gulp.dest(DIST_DIR + 'buildlib/')),
     gulp.src(MINIFIED_DIR + 'image_decoders/pdf.image_decoders.js')
         .pipe(rename('pdf.image_decoders.min.js'))
         .pipe(gulp.dest(DIST_DIR + 'image_decoders/')),

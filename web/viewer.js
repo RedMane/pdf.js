@@ -91,6 +91,8 @@ function getViewerConfiguration() {
       openFileButton: document.getElementById('secondaryOpenFile'),
       printButton: document.getElementById('secondaryPrint'),
       downloadButton: document.getElementById('secondaryDownload'),
+	  secondarySynchIn: document.getElementById('secondarySynchIn'), // mCase-customization: new button to synch pdf form fields  
+	  secondarySynchOut: document.getElementById('secondarySynchOut'), // mCase-customization: new button to synch mCase fields    
       viewBookmarkButton: document.getElementById('secondaryViewBookmark'),
       firstPageButton: document.getElementById('firstPage'),
       lastPageButton: document.getElementById('lastPage'),

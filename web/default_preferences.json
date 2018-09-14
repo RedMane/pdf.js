@@ -1,5 +1,5 @@
 {
-  "showPreviousViewOnLoad": true,
+  "showPreviousViewOnLoad": false,
   "defaultZoomValue": "page-width",
   "sidebarViewOnLoad": 0,
   "cursorToolOnLoad": 0,
