@@ -17,8 +17,7 @@ import './compatibility';
 import { ReadableStream } from './streams_polyfill';
 import { URL } from './url_polyfill';
 
-const IDENTITY_MATRIX = [1, 0, 0, 1, 0, 0];
-const FONT_IDENTITY_MATRIX = [0.001, 0, 0, 0.001, 0, 0];
+var FONT_IDENTITY_MATRIX = [0.001, 0, 0, 0.001, 0, 0];
 
 const NativeImageDecoding = {
   NONE: 'none',
@@ -26,19 +25,7 @@ const NativeImageDecoding = {
   DISPLAY: 'display',
 };
 
-// Permission flags from Table 22, Section 7.6.3.2 of the PDF specification.
-const PermissionFlag = {
-  PRINT: 0x04,
-  MODIFY_CONTENTS: 0x08,
-  COPY: 0x10,
-  MODIFY_ANNOTATIONS: 0x20,
-  FILL_INTERACTIVE_FORMS: 0x100,
-  COPY_FOR_ACCESSIBILITY: 0x200,
-  ASSEMBLE: 0x400,
-  PRINT_HIGH_QUALITY: 0x800,
-};
-
-const TextRenderingMode = {
+var TextRenderingMode = {
   FILL: 0,
   STROKE: 1,
   FILL_STROKE: 2,
@@ -51,13 +38,13 @@ const TextRenderingMode = {
   ADD_TO_PATH_FLAG: 4,
 };
 
-const ImageKind = {
+var ImageKind = {
   GRAYSCALE_1BPP: 1,
   RGB_24BPP: 2,
   RGBA_32BPP: 3,
 };
 
-const AnnotationType = {
+var AnnotationType = {
   TEXT: 1,
   LINK: 2,
   FREETEXT: 3,
@@ -86,7 +73,7 @@ const AnnotationType = {
   REDACT: 26,
 };
 
-const AnnotationFlag = {
+var AnnotationFlag = {
   INVISIBLE: 0x01,
   HIDDEN: 0x02,
   PRINT: 0x04,
@@ -99,7 +86,7 @@ const AnnotationFlag = {
   LOCKEDCONTENTS: 0x200,
 };
 
-const AnnotationFieldFlag = {
+var AnnotationFieldFlag = {
   READONLY: 0x0000001,
   REQUIRED: 0x0000002,
   NOEXPORT: 0x0000004,
@@ -121,7 +108,7 @@ const AnnotationFieldFlag = {
   COMMITONSELCHANGE: 0x4000000,
 };
 
-const AnnotationBorderStyleType = {
+var AnnotationBorderStyleType = {
   SOLID: 1,
   DASHED: 2,
   BEVELED: 3,
@@ -129,7 +116,7 @@ const AnnotationBorderStyleType = {
   UNDERLINE: 5,
 };
 
-const StreamType = {
+var StreamType = {
   UNKNOWN: 0,
   FLATE: 1,
   LZW: 2,
@@ -142,7 +129,7 @@ const StreamType = {
   RL: 9,
 };
 
-const FontType = {
+var FontType = {
   UNKNOWN: 0,
   TYPE1: 1,
   TYPE1C: 2,
@@ -162,14 +149,14 @@ const VerbosityLevel = {
   INFOS: 5,
 };
 
-const CMapCompressionType = {
+var CMapCompressionType = {
   NONE: 0,
   BINARY: 1,
   STREAM: 2,
 };
 
 // All the possible operations for an operator list.
-const OPS = {
+var OPS = {
   // Intentionally start from 1 so it is easy to spot bad operators that will be
   // 0's.
   dependency: 1,
@@ -265,20 +252,6 @@ const OPS = {
   constructPath: 91,
 };
 
-const UNSUPPORTED_FEATURES = {
-  unknown: 'unknown',
-  forms: 'forms',
-  javaScript: 'javaScript',
-  smask: 'smask',
-  shadingPattern: 'shadingPattern',
-  font: 'font',
-};
-
-const PasswordResponses = {
-  NEED_PASSWORD: 1,
-  INCORRECT_PASSWORD: 2,
-};
-
 let verbosity = VerbosityLevel.WARNINGS;
 
 function setVerbosityLevel(level) {
@@ -322,6 +295,15 @@ function assert(cond, msg) {
   }
 }
 
+var UNSUPPORTED_FEATURES = {
+  unknown: 'unknown',
+  forms: 'forms',
+  javaScript: 'javaScript',
+  smask: 'smask',
+  shadingPattern: 'shadingPattern',
+  font: 'font',
+};
+
 // Checks if URLs have the same origin. For non-HTTP based URLs, returns false.
 function isSameOrigin(baseUrl, otherUrl) {
   try {
@@ -338,7 +320,7 @@ function isSameOrigin(baseUrl, otherUrl) {
 }
 
 // Checks if URLs use one of the whitelisted protocols, e.g. to avoid XSS.
-function _isValidProtocol(url) {
+function isValidProtocol(url) {
   if (!url) {
     return false;
   }
@@ -355,8 +337,7 @@ function _isValidProtocol(url) {
 }
 
 /**
- * Attempts to create a valid absolute URL.
- *
+ * Attempts to create a valid absolute URL (utilizing `isValidProtocol`).
  * @param {URL|string} url - An absolute, or relative, URL.
  * @param {URL|string} baseUrl - An absolute URL.
  * @returns Either a valid {URL}, or `null` otherwise.
@@ -367,7 +348,7 @@ function createValidAbsoluteUrl(url, baseUrl) {
   }
   try {
     var absoluteUrl = baseUrl ? new URL(url, baseUrl) : new URL(url);
-    if (_isValidProtocol(absoluteUrl)) {
+    if (isValidProtocol(absoluteUrl)) {
       return absoluteUrl;
     }
   } catch (ex) { /* `new URL()` will throw on incorrect data. */ }
@@ -393,6 +374,11 @@ function getLookupTableFactory(initializer) {
     return lookup;
   };
 }
+
+var PasswordResponses = {
+  NEED_PASSWORD: 1,
+  INCORRECT_PASSWORD: 2,
+};
 
 var PasswordException = (function PasswordExceptionClosure() {
   function PasswordException(msg, code) {
@@ -694,6 +680,8 @@ function getInheritableProperty({ dict, key, getArray = false,
   return values;
 }
 
+var IDENTITY_MATRIX = [1, 0, 0, 1, 0, 0];
+
 var Util = (function UtilClosure() {
   function Util() {}
 
@@ -891,7 +879,7 @@ function toRomanNumerals(number, lowerCase = false) {
   return (lowerCase ? romanStr.toLowerCase() : romanStr);
 }
 
-const PDFStringTranslateTable = [
+var PDFStringTranslateTable = [
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0x2D8, 0x2C7, 0x2C6, 0x2D9, 0x2DD, 0x2DB, 0x2DA, 0x2DC, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -981,6 +969,13 @@ function createPromiseCapability() {
   return capability;
 }
 
+var createBlob = function createBlob(data, contentType) {
+  if (typeof Blob !== 'undefined') {
+    return new Blob([data], { type: contentType, });
+  }
+  throw new Error('The "Blob" constructor is not supported.');
+};
+
 var createObjectURL = (function createObjectURLClosure() {
   // Blob/createObjectURL is not available, falling back to data schema.
   var digits =
@@ -988,7 +983,7 @@ var createObjectURL = (function createObjectURLClosure() {
 
   return function createObjectURL(data, contentType, forceDataSchema = false) {
     if (!forceDataSchema && URL.createObjectURL) {
-      const blob = new Blob([data], { type: contentType, });
+      var blob = createBlob(data, contentType);
       return URL.createObjectURL(blob);
     }
 
@@ -1026,7 +1021,6 @@ export {
   NativeImageDecoding,
   PasswordException,
   PasswordResponses,
-  PermissionFlag,
   StreamType,
   TextRenderingMode,
   UnexpectedResponseException,
@@ -1039,6 +1033,7 @@ export {
   arraysToBytes,
   assert,
   bytesToString,
+  createBlob,
   createPromiseCapability,
   createObjectURL,
   deprecated,

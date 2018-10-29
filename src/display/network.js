@@ -453,16 +453,16 @@ PDFNetworkStreamFullRequestReader.prototype = {
     return this._headersReceivedCapability.promise;
   },
 
-  async read() {
+  read: function PDFNetworkStreamFullRequestReader_read() {
     if (this._storedError) {
-      throw this._storedError;
+      return Promise.reject(this._storedError);
     }
     if (this._cachedChunks.length > 0) {
       var chunk = this._cachedChunks.shift();
-      return { value: chunk, done: false, };
+      return Promise.resolve({ value: chunk, done: false, });
     }
     if (this._done) {
-      return { value: undefined, done: true, };
+      return Promise.resolve({ value: undefined, done: true, });
     }
     var requestCapability = createPromiseCapability();
     this._requests.push(requestCapability);
@@ -534,14 +534,14 @@ PDFNetworkStreamRangeRequestReader.prototype = {
     return false; // TODO allow progressive range bytes loading
   },
 
-  async read() {
+  read: function PDFNetworkStreamRangeRequestReader_read() {
     if (this._queuedChunk !== null) {
       var chunk = this._queuedChunk;
       this._queuedChunk = null;
-      return { value: chunk, done: false, };
+      return Promise.resolve({ value: chunk, done: false, });
     }
     if (this._done) {
-      return { value: undefined, done: true, };
+      return Promise.resolve({ value: undefined, done: true, });
     }
     var requestCapability = createPromiseCapability();
     this._requests.push(requestCapability);

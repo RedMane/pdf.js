@@ -26,12 +26,18 @@ if (typeof PDFJSDev !== 'undefined' && !PDFJSDev.test('GENERIC')) {
 let GenericCom = {};
 
 class GenericPreferences extends BasePreferences {
-  async _writeToStorage(prefObj) {
-    localStorage.setItem('pdfjs.preferences', JSON.stringify(prefObj));
+  _writeToStorage(prefObj) {
+    return new Promise(function(resolve) {
+      localStorage.setItem('pdfjs.preferences', JSON.stringify(prefObj));
+      resolve();
+    });
   }
 
-  async _readFromStorage(prefObj) {
-    return JSON.parse(localStorage.getItem('pdfjs.preferences'));
+  _readFromStorage(prefObj) {
+    return new Promise(function(resolve) {
+      let readPrefs = JSON.parse(localStorage.getItem('pdfjs.preferences'));
+      resolve(readPrefs);
+    });
   }
 }
 

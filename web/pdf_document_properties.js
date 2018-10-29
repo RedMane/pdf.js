@@ -128,10 +128,9 @@ class PDFDocumentProperties {
             return this._parsePageSize(getPageSizeInches(pdfPage),
                                        pagesRotation);
           }),
-          this._parseLinearization(info.IsLinearized),
         ]);
       }).then(([info, metadata, fileName, fileSize, creationDate, modDate,
-                pageSize, isLinearized]) => {
+                pageSize]) => {
         freezeFieldData({
           'fileName': fileName,
           'fileSize': fileSize,
@@ -146,7 +145,6 @@ class PDFDocumentProperties {
           'version': info.PDFFormatVersion,
           'pageCount': this.pdfDocument.numPages,
           'pageSize': pageSize,
-          'linearized': isLinearized,
           '_currentPageNumber': currentPageNumber,
           '_pagesRotation': pagesRotation,
         });
@@ -407,15 +405,6 @@ class PDFDocumentProperties {
     return this.l10n.get('document_properties_date_string',
                          { date: dateString, time: timeString, },
                          '{{date}}, {{time}}');
-  }
-
-  /**
-   * @private
-   */
-  _parseLinearization(isLinearized) {
-    return this.l10n.get('document_properties_linearized_' +
-                         (isLinearized ? 'yes' : 'no'), null,
-                         (isLinearized ? 'Yes' : 'No'));
   }
 }
 

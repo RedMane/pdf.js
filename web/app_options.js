@@ -68,11 +68,6 @@ const defaultOptions = {
     value: false,
     kind: OptionKind.VIEWER,
   },
-  eventBusDispatchToDOM: {
-    /** @type {boolean} */
-    value: false,
-    kind: OptionKind.VIEWER,
-  },
   externalLinkRel: {
     /** @type {string} */
     value: 'noopener noreferrer nofollow',

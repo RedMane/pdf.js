@@ -18,11 +18,13 @@ import {
   ReadableStream, UnexpectedResponseException, UnknownErrorException
 } from './util';
 
-async function resolveCall(fn, args, thisArg = null) {
+function resolveCall(fn, args, thisArg = null) {
   if (!fn) {
-    return;
+    return Promise.resolve(undefined);
   }
-  return fn.apply(thisArg, args);
+  return new Promise((resolve, reject) => {
+    resolve(fn.apply(thisArg, args));
+  });
 }
 
 function wrapReason(reason) {

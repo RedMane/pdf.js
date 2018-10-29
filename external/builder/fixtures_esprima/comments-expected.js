@@ -6,7 +6,7 @@ function f2() {
  "1";
  "2";
 }
-function f3() {
+function f2() {
  if ("1") {
   "1";
  }

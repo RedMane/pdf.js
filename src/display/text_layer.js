@@ -531,8 +531,8 @@ var renderTextLayer = (function renderTextLayerClosure() {
       if (fontSize !== this._layoutTextLastFontSize ||
           fontFamily !== this._layoutTextLastFontFamily) {
         this._layoutTextCtx.font = fontSize + ' ' + fontFamily;
-        this._layoutTextLastFontSize = fontSize;
-        this._layoutTextLastFontFamily = fontFamily;
+        this._lastFontSize = fontSize;
+        this._lastFontFamily = fontFamily;
       }
 
       let width = this._layoutTextCtx.measureText(textDiv.textContent).width;

@@ -703,10 +703,6 @@ var WorkerMessageHandler = {
       }
     );
 
-    handler.on('GetPermissions', function(data) {
-      return pdfManager.ensureCatalog('permissions');
-    });
-
     handler.on('GetMetadata',
       function wphSetupGetMetadata(data) {
         return Promise.all([pdfManager.ensureDoc('documentInfo'),
@@ -727,9 +723,9 @@ var WorkerMessageHandler = {
       }
     );
 
-    handler.on('GetAnnotations', function({ pageIndex, intent, }) {
-      return pdfManager.getPage(pageIndex).then(function(page) {
-        return page.getAnnotationsData(intent);
+    handler.on('GetAnnotations', function wphSetupGetAnnotations(data) {
+      return pdfManager.getPage(data.pageIndex).then(function(page) {
+        return pdfManager.ensure(page, 'getAnnotationsData', [data.intent]);
       });
     });
 

@@ -142,7 +142,7 @@ var JpxImage = (function JpxImageClosure() {
           this.width = Xsiz - XOsiz;
           this.height = Ysiz - YOsiz;
           this.componentsCount = Csiz;
-          // Results are always returned as `Uint8ClampedArray`s.
+          // Results are always returned as Uint8Arrays
           this.bitsPerComponent = 8;
           return;
         }

@@ -97,12 +97,8 @@ let JpegStream = (function JpegStreamClosure() {
     const jpegImage = new JpegImage(jpegOptions);
 
     jpegImage.parse(this.bytes);
-    let data = jpegImage.getData({
-      width: this.drawWidth,
-      height: this.drawHeight,
-      forceRGB: this.forceRGB,
-      isSourcePDF: true,
-    });
+    let data = jpegImage.getData(this.drawWidth, this.drawHeight,
+                                 this.forceRGB);
     this.buffer = data;
     this.bufferLength = data.length;
     this.eof = true;

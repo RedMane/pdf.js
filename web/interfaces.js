@@ -163,12 +163,12 @@ class IL10n {
   /**
    * @returns {Promise<string>} - Resolves to the current locale.
    */
-  async getLanguage() {}
+  getLanguage() {}
 
   /**
    * @returns {Promise<string>} - Resolves to 'rtl' or 'ltr'.
    */
-  async getDirection() {}
+  getDirection() {}
 
   /**
    * Translates text identified by the key and adds/formats data using the args
@@ -179,12 +179,12 @@ class IL10n {
    * @param {string} fallback
    * @returns {Promise<string>}
    */
-  async get(key, args, fallback) { }
+  get(key, args, fallback) { }
 
   /**
    * Translates HTML element.
    * @param {HTMLElement} element
    * @returns {Promise<void>}
    */
-  async translate(element) { }
+  translate(element) { }
 }

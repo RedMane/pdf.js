@@ -100,19 +100,19 @@ class Toolbar {
     let self = this;
 
     items.previous.addEventListener('click', function() {
-      eventBus.dispatch('previouspage', { source: self, });
+      eventBus.dispatch('previouspage');
     });
 
     items.next.addEventListener('click', function() {
-      eventBus.dispatch('nextpage', { source: self, });
+      eventBus.dispatch('nextpage');
     });
 
     items.zoomIn.addEventListener('click', function() {
-      eventBus.dispatch('zoomin', { source: self, });
+      eventBus.dispatch('zoomin');
     });
 
     items.zoomOut.addEventListener('click', function() {
-      eventBus.dispatch('zoomout', { source: self, });
+      eventBus.dispatch('zoomout');
     });
 
     items.pageNumber.addEventListener('click', function() {
@@ -137,19 +137,19 @@ class Toolbar {
     });
 
     items.presentationModeButton.addEventListener('click', function() {
-      eventBus.dispatch('presentationmode', { source: self, });
+      eventBus.dispatch('presentationmode');
     });
 
     items.openFile.addEventListener('click', function() {
-      eventBus.dispatch('openfile', { source: self, });
+      eventBus.dispatch('openfile');
     });
 
     items.print.addEventListener('click', function() {
-      eventBus.dispatch('print', { source: self, });
+      eventBus.dispatch('print');
     });
 
     items.download.addEventListener('click', function() {
-      eventBus.dispatch('download', { source: self, });
+      eventBus.dispatch('download');
     });
 	
 	/* BEGIN: mCase-customization: custom event listeners */

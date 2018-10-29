@@ -72,7 +72,7 @@ class BasePdfManager {
     return this.pdfDocument.cleanup();
   }
 
-  async ensure(obj, prop, args) {
+  ensure(obj, prop, args) {
     unreachable('Abstract method `ensure` called');
   }
 
@@ -111,12 +111,15 @@ class LocalPdfManager extends BasePdfManager {
     this._loadedStreamPromise = Promise.resolve(stream);
   }
 
-  async ensure(obj, prop, args) {
-    const value = obj[prop];
-    if (typeof value === 'function') {
-      return value.apply(obj, args);
-    }
-    return value;
+  ensure(obj, prop, args) {
+    return new Promise(function(resolve) {
+      const value = obj[prop];
+      if (typeof value === 'function') {
+        resolve(value.apply(obj, args));
+      } else {
+        resolve(value);
+      }
+    });
   }
 
   requestRange(begin, end) {
@@ -152,20 +155,30 @@ class NetworkPdfManager extends BasePdfManager {
     this.pdfDocument = new PDFDocument(this, this.streamManager.getStream());
   }
 
-  async ensure(obj, prop, args) {
-    try {
-      const value = obj[prop];
-      if (typeof value === 'function') {
-        return value.apply(obj, args);
-      }
-      return value;
-    } catch (ex) {
-      if (!(ex instanceof MissingDataException)) {
-        throw ex;
-      }
-      await this.requestRange(ex.begin, ex.end);
-      return this.ensure(obj, prop, args);
-    }
+  ensure(obj, prop, args) {
+    return new Promise((resolve, reject) => {
+      let ensureHelper = () => {
+        try {
+          const value = obj[prop];
+          let result;
+          if (typeof value === 'function') {
+            result = value.apply(obj, args);
+          } else {
+            result = value;
+          }
+          resolve(result);
+        } catch (ex) {
+          if (!(ex instanceof MissingDataException)) {
+            reject(ex);
+            return;
+          }
+          this.streamManager.requestRange(ex.begin, ex.end)
+            .then(ensureHelper, reject);
+        }
+      };
+
+      ensureHelper();
+    });
   }
 
   requestRange(begin, end) {
