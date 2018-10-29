@@ -145,7 +145,9 @@ class AnnotationElement {
     container.setAttribute('data-annotation-id', data.id);
 	
 	/* BEGIN mCase-customization: additional data attributes */
-	container.setAttribute('data-field-name', data.fieldName.toUpperCase()); 
+	if(data.fieldName){
+		container.setAttribute('data-field-name', data.fieldName.toUpperCase()); 
+	}
 	
 	if(data.radioButton){
 		container.setAttribute('data-button-value', data.buttonValue.toUpperCase());
