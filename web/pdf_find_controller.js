@@ -14,6 +14,7 @@
  */
 
 import { createPromiseCapability } from 'pdfjs-lib';
+import { getCharacterType } from './pdf_find_utils';
 import { getGlobalEventBus } from './dom_events';
 import { scrollIntoView } from './ui_utils';
 
@@ -68,7 +69,7 @@ class PDFFindController {
     this.pageContents = []; // Stores the text for each page.
     this.pageMatches = [];
     this.pageMatchesLength = null;
-    this.matchCount = 0;
+    this.matchesCountTotal = 0;
     this.selected = { // Currently selected match.
       pageIdx: -1,
       matchIdx: -1,
@@ -190,7 +191,30 @@ class PDFFindController {
     }
   }
 
-  _calculatePhraseMatch(query, pageIndex, pageContent) {
+  /**
+   * Determine if the search query constitutes a "whole word", by comparing the
+   * first/last character type with the preceding/following character type.
+   */
+  _isEntireWord(content, startIdx, length) {
+    if (startIdx > 0) {
+      const first = content.charCodeAt(startIdx);
+      const limit = content.charCodeAt(startIdx - 1);
+      if (getCharacterType(first) === getCharacterType(limit)) {
+        return false;
+      }
+    }
+    const endIdx = (startIdx + length - 1);
+    if (endIdx < (content.length - 1)) {
+      const last = content.charCodeAt(endIdx);
+      const limit = content.charCodeAt(endIdx + 1);
+      if (getCharacterType(last) === getCharacterType(limit)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  _calculatePhraseMatch(query, pageIndex, pageContent, entireWord) {
     let matches = [];
     let queryLen = query.length;
     let matchIdx = -queryLen;
@@ -199,12 +223,15 @@ class PDFFindController {
       if (matchIdx === -1) {
         break;
       }
+      if (entireWord && !this._isEntireWord(pageContent, matchIdx, queryLen)) {
+        continue;
+      }
       matches.push(matchIdx);
     }
     this.pageMatches[pageIndex] = matches;
   }
 
-  _calculateWordMatch(query, pageIndex, pageContent) {
+  _calculateWordMatch(query, pageIndex, pageContent, entireWord) {
     let matchesWithLength = [];
     // Divide the query into pieces and search for text in each piece.
     let queryArray = query.match(/\S+/g);
@@ -216,6 +243,10 @@ class PDFFindController {
         matchIdx = pageContent.indexOf(subquery, matchIdx + subqueryLen);
         if (matchIdx === -1) {
           break;
+        }
+        if (entireWord &&
+            !this._isEntireWord(pageContent, matchIdx, subqueryLen)) {
+          continue;
         }
         // Other searches do not, so we store the length.
         matchesWithLength.push({
@@ -244,6 +275,7 @@ class PDFFindController {
     let query = this._normalize(this.state.query);
     let caseSensitive = this.state.caseSensitive;
     let phraseSearch = this.state.phraseSearch;
+    const entireWord = this.state.entireWord;
     let queryLen = query.length;
 
     if (queryLen === 0) {
@@ -257,9 +289,9 @@ class PDFFindController {
     }
 
     if (phraseSearch) {
-      this._calculatePhraseMatch(query, pageIndex, pageContent);
+      this._calculatePhraseMatch(query, pageIndex, pageContent, entireWord);
     } else {
-      this._calculateWordMatch(query, pageIndex, pageContent);
+      this._calculateWordMatch(query, pageIndex, pageContent, entireWord);
     }
 
     this._updatePage(pageIndex);
@@ -269,8 +301,9 @@ class PDFFindController {
     }
 
     // Update the match count.
-    if (this.pageMatches[pageIndex].length > 0) {
-      this.matchCount += this.pageMatches[pageIndex].length;
+    const pageMatchesCount = this.pageMatches[pageIndex].length;
+    if (pageMatchesCount > 0) {
+      this.matchesCountTotal += pageMatchesCount;
       this._updateUIResultsCount();
     }
   }
@@ -338,7 +371,7 @@ class PDFFindController {
       this.hadMatch = false;
       this.resumePageIdx = null;
       this.pageMatches = [];
-      this.matchCount = 0;
+      this.matchesCountTotal = 0;
       this.pageMatchesLength = null;
 
       for (let i = 0; i < numPages; i++) {
@@ -475,16 +508,38 @@ class PDFFindController {
     }
   }
 
-  _updateUIResultsCount() {
-    if (this.onUpdateResultsCount) {
-      this.onUpdateResultsCount(this.matchCount);
+  _requestMatchesCount() {
+    const { pageIdx, matchIdx, } = this.selected;
+    let current = 0, total = this.matchesCountTotal;
+    if (matchIdx !== -1) {
+      for (let i = 0; i < pageIdx; i++) {
+        current += (this.pageMatches[i] && this.pageMatches[i].length) || 0;
+      }
+      current += matchIdx + 1;
     }
+    // When searching starts, this method may be called before the `pageMatches`
+    // have been counted (in `_calculateMatch`). Ensure that the UI won't show
+    // temporarily broken state when the active find result doesn't make sense.
+    if (current > total) {
+      current = total = 0;
+    }
+    return { current, total, };
+  }
+
+  _updateUIResultsCount() {
+    if (!this.onUpdateResultsCount) {
+      return;
+    }
+    const matchesCount = this._requestMatchesCount();
+    this.onUpdateResultsCount(matchesCount);
   }
 
   _updateUIState(state, previous) {
-    if (this.onUpdateState) {
-      this.onUpdateState(state, previous, this.matchCount);
+    if (!this.onUpdateState) {
+      return;
     }
+    const matchesCount = this._requestMatchesCount();
+    this.onUpdateState(state, previous, matchesCount);
   }
 }
 
