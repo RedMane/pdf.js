@@ -613,12 +613,10 @@ class WidgetAnnotation extends Annotation {
 
     data.readOnly = this.hasFieldFlag(AnnotationFieldFlag.READONLY);
 
-	/* BEGIN mCase-customization: display signature fields */
     // Hide signatures because we cannot validate them.
-    // if (data.fieldType === 'Sig') {
-    //   this.setFlags(AnnotationFlag.HIDDEN);
-    // }
-	/* END mCase-customization: display signature fields */
+    if (data.fieldType === 'Sig') {
+      this.setFlags(AnnotationFlag.HIDDEN);
+    }
   }
 
   /**

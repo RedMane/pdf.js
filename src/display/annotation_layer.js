@@ -149,12 +149,25 @@ class AnnotationElement {
 	
 	/* BEGIN mCase-customization: additional data attributes */
 	if(data.fieldName){
-		container.setAttribute('data-field-name', data.fieldName.toUpperCase()); 
+		container.setAttribute('data-field-name', data.fieldName); 
 	}
 	
 	if(data.radioButton){
 		container.setAttribute('data-button-value', data.buttonValue.toUpperCase());
-	}
+  }
+  
+  // fire custom event with fieldElement details when signature field is tapped/clicked 
+  if(data.fieldName.toUpperCase().includes("MCASE-SIGN") ){ 
+
+    var signatureEvent = new CustomEvent('displaySignatureModal', {
+		  detail: data,
+		  bubbles: true
+      });
+
+    container.addEventListener("click", function (e){
+      container.dispatchEvent(signatureEvent);
+    }, false);
+  }
 	/* END mCase-customization */
 
     // Do *not* modify `data.rect`, since that will corrupt the annotation
@@ -437,7 +450,17 @@ class TextWidgetAnnotationElement extends WidgetAnnotationElement {
         element.setAttribute('value', this.data.fieldValue);
       }
 
-      element.disabled = this.data.readOnly;
+      /* BEGIN mCase-customization: adding dummy css class to identify mCase Signature text fields */
+      
+      // element.disabled = this.data.readOnly;
+
+      // testing code for signature fields
+      if(this.data.fieldName.toUpperCase().includes("MCASE-SIGN") ){
+        this.container.classList.add("signatureWidgetAnnotation");
+        element.setAttribute('placeholder', 'Sign Here');
+        element.setAttribute('value', '');
+      }
+      /* END mCase-customization */
 
       if (this.data.maxLen !== null) {
         element.maxLength = this.data.maxLen;
