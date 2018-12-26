@@ -157,7 +157,7 @@ class AnnotationElement {
   }
   
   // fire custom event with fieldElement details when signature field is tapped/clicked 
-  if(data.fieldName.toUpperCase().includes("MCASE-SIGN") ){ 
+  if(data.fieldName && data.fieldName.toUpperCase().includes("MCASE-SIGN") ){ 
 
     var signatureEvent = new CustomEvent('displaySignatureModal', {
 		  detail: data,
@@ -455,7 +455,7 @@ class TextWidgetAnnotationElement extends WidgetAnnotationElement {
       // element.disabled = this.data.readOnly;
 
       // testing code for signature fields
-      if(this.data.fieldName.toUpperCase().includes("MCASE-SIGN") ){
+      if(this.data.fieldName && this.data.fieldName.toUpperCase().includes("MCASE-SIGN") ){
         this.container.classList.add("signatureWidgetAnnotation");
         element.setAttribute('placeholder', 'Sign Here');
         element.setAttribute('value', '');
