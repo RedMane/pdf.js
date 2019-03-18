@@ -76,9 +76,10 @@ function getViewerConfiguration() {
       openFile: document.getElementById('openFile'),
       print: document.getElementById('print'),
       presentationModeButton: document.getElementById('presentationMode'),
-      download: document.getElementById('download'),
+	  download: document.getElementById('download'),
 	  synchIn: document.getElementById('synchIn'), // mCase-customization: new button to synch pdf form fields  
-	  synchOut: document.getElementById('synchOut'), // mCase-customization: new button to synch mCase fields    
+      synchOut: document.getElementById('synchOut'), // mCase-customization: new button to synch mCase fields
+	  shareDoc: document.getElementById('shareDoc'), // mCase-customization: new button to to share pdf document	  	  
       viewBookmark: document.getElementById('viewBookmark'),
     },
     secondaryToolbar: {
@@ -92,7 +93,8 @@ function getViewerConfiguration() {
       printButton: document.getElementById('secondaryPrint'),
       downloadButton: document.getElementById('secondaryDownload'),
 	  secondarySynchIn: document.getElementById('secondarySynchIn'), // mCase-customization: new button to synch pdf form fields  
-	  secondarySynchOut: document.getElementById('secondarySynchOut'), // mCase-customization: new button to synch mCase fields    
+      secondarySynchOut: document.getElementById('secondarySynchOut'), // mCase-customization: new button to synch mCase fields
+      secondaryShareDoc: document.getElementById('secondaryShareDoc'), // mCase-customization: new button to share pdf document
       viewBookmarkButton: document.getElementById('secondaryViewBookmark'),
       firstPageButton: document.getElementById('firstPage'),
       lastPageButton: document.getElementById('lastPage'),

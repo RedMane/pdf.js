@@ -145,8 +145,8 @@ class Toolbar {
     items.print.addEventListener('click', function() {
       eventBus.dispatch('print', { source: self, });
     });
-
-    items.download.addEventListener('click', function() {
+	
+	items.download.addEventListener('click', function() {
       eventBus.dispatch('download', { source: self, });
     });
 	
@@ -158,8 +158,12 @@ class Toolbar {
 	items.synchOut.addEventListener('click', function() {
       eventBus.dispatch('syncOutFields');
     });
+
+	items.shareDoc.addEventListener('click', function() {
+      eventBus.dispatch('shareDoc');
+    });
     /* END: mCase-customization */
-	
+		
     // Suppress context menus for some controls.
     items.scaleSelect.oncontextmenu = noContextMenuHandler;
 

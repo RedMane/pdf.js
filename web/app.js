@@ -1301,9 +1301,10 @@ let PDFViewerApplication = {
     eventBus.on('presentationmode', webViewerPresentationMode);
     eventBus.on('openfile', webViewerOpenFile);
     eventBus.on('print', webViewerPrint);
-    eventBus.on('download', webViewerDownload);
-	eventBus.on('syncInFields', webViewerSyncInFields);	// mCase-customization: custom event handler to synch pdf form fields 
-	eventBus.on('syncOutFields', webViewerSyncOutFields); // mCase-customization: custom event handler to synch mCase fields 
+	eventBus.on('download', webViewerDownload);
+    eventBus.on('syncInFields', webViewerSyncInFields);	// mCase-customization: custom event handler to synch pdf form fields 
+    eventBus.on('syncOutFields', webViewerSyncOutFields); // mCase-customization: custom event handler to synch mCase fields
+    eventBus.on('shareDoc', webViewerShareDocument); // mCase-customization: custom event handler to share pdf document
     eventBus.on('firstpage', webViewerFirstPage);
     eventBus.on('lastpage', webViewerLastPage);
     eventBus.on('nextpage', webViewerNextPage);
@@ -1916,6 +1917,14 @@ function webViewerSyncOutFields() {
 	  id: document.body.getAttribute('id'),
 	  viewType: document.body.getAttribute('viewType') 	
 	},  
+    bubbles: true
+  });
+  document.dispatchEvent(event);
+}
+function webViewerShareDocument() {
+  
+  // mCase-customization: adding custom event to trigger document sharing  
+  var event = new CustomEvent('sharePdfDocument', {
     bubbles: true
   });
   document.dispatchEvent(event);

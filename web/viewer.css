@@ -879,7 +879,7 @@ html[dir='rtl'] .toolbarButton.pageDown::before {
   content: url(images/toolbarButton-bookmark.png);
 }
 
-/* BEGIN mCase-customization: image resources for new SynchIn/SynchOut buttons */
+/* BEGIN mCase-customization: image resources for new buttons */
 .toolbarButton.synchIn::before,
 .secondaryToolbarButton.synchIn::before {
   content: url(images/toolbarButton-SynchFromMCaseToPdf.png);
@@ -888,6 +888,11 @@ html[dir='rtl'] .toolbarButton.pageDown::before {
 .toolbarButton.synchOut::before,
 .secondaryToolbarButton.synchOut::before {
   content: url(images/toolbarButton-SynchFromPdfToMCase.png);
+}
+
+.toolbarButton.shareDoc::before,
+.secondaryToolbarButton.shareDoc::before {
+  content: url(images/toolbarButton-shareDocument.png);
 }
 /* END mCase-customization */
 
@@ -1688,7 +1693,7 @@ html[dir='rtl'] #documentPropertiesOverlay .row > * {
     content: url(images/toolbarButton-bookmark@2x.png);
   }
   
-  /* BEGIN mCase-customization: image resources for new SynchIn/SynchOut buttons */
+  /* BEGIN mCase-customization: image resources for new buttons */
   .toolbarButton.synchIn::before,
   .secondaryToolbarButton.synchIn::before {
     content: url(images/toolbarButton-SynchFromMCaseToPdf@2x.png);
@@ -1698,6 +1703,11 @@ html[dir='rtl'] #documentPropertiesOverlay .row > * {
   .secondaryToolbarButton.synchOut::before {
     content: url(images/toolbarButton-SynchFromPdfToMCase@2x.png);
   }
+
+  .toolbarButton.shareDoc::before,
+  .secondaryToolbarButton.shareDoc::before {
+  content: url(images/toolbarButton-shareDocument@2x.png);
+}
   /* END mCase-customization: */
 
   #viewThumbnail.toolbarButton::before {
